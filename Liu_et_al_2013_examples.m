@@ -1,8 +1,8 @@
 clear all; close all; clc;
 % Liu et al. 2013 - Examples
 
-% fid = 1;
-fid = fopen('Liu_et_al_2013_examples_results.txt','w');
+fid = 1;
+% fid = fopen('Liu_et_al_2013_examples_results.txt','w');
 
 %% Example 1
 wf = wf_caftb('W14x48',50,'AISC2010');
@@ -33,5 +33,5 @@ fprintf(fid,'%.1f\n',wf.phi_c*wf.Pnca(40*12,1));
 
 %% 
 if fid ~= 1
-    fclose(fid);
+    fclose(fid)
 end
