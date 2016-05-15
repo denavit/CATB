@@ -30,23 +30,23 @@ classdef wf_caftb_base
     
     methods
         function obj = set_shape_properties(obj,shape_name)
-            load('wShapeData.mat');
-            labels = {wShapeData(:).label};
+            load('ShapeData_Wide_Flange.mat');
+            labels = {ShapeData_Wide_Flange(:).label};
             i = find(strcmpi(shape_name,labels));
             assert(isscalar(i),'Could not find: %s',shape_name);
-            obj.label       = wShapeData(i).label;
-            obj.A           = wShapeData(i).A;
-            obj.d           = wShapeData(i).d;
-            obj.tw          = wShapeData(i).tw;
-            obj.Ix          = wShapeData(i).Ix;
-            obj.Iy          = wShapeData(i).Iy;
-            obj.J           = wShapeData(i).J;
-            obj.rx          = wShapeData(i).rx;
-            obj.ry          = wShapeData(i).ry;
-            obj.ho          = wShapeData(i).ho;
-            obj.Cw          = wShapeData(i).Cw;
-            obj.bf_over_2tf = wShapeData(i).bf_over_2tf;
-            obj.h_over_tw   = wShapeData(i).h_over_tw;
+            obj.label       = ShapeData_Wide_Flange(i).label;
+            obj.A           = ShapeData_Wide_Flange(i).A;
+            obj.d           = ShapeData_Wide_Flange(i).d;
+            obj.tw          = ShapeData_Wide_Flange(i).tw;
+            obj.Ix          = ShapeData_Wide_Flange(i).Ix;
+            obj.Iy          = ShapeData_Wide_Flange(i).Iy;
+            obj.J           = ShapeData_Wide_Flange(i).J;
+            obj.rx          = ShapeData_Wide_Flange(i).rx;
+            obj.ry          = ShapeData_Wide_Flange(i).ry;
+            obj.ho          = ShapeData_Wide_Flange(i).ho;
+            obj.Cw          = ShapeData_Wide_Flange(i).Cw;
+            obj.bf_over_2tf = ShapeData_Wide_Flange(i).bf_over_2tf;
+            obj.h_over_tw   = ShapeData_Wide_Flange(i).h_over_tw;
         end
         
         function Py = Py(obj)
