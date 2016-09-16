@@ -104,7 +104,7 @@ for i = 2:length(L)
     Pnca(i)      = wf.Pnca(L(i),K);
     Pnca_0(i)    = wf.Pr_given_betaTb(L(i),0);
     Pnca_37(i)   = wf.Pr_given_betaTb(L(i),37);
-    Pnca_37s(i)  = wf.Pr_given_betaTb_and_phiMn(L(i),37,1);
+    Pnca_37s(i)  = wf.Pr_given_betaTb_and_phiMn(L(i),37,phiMn);
     Pnca_477(i)  = wf.Pr_given_betaTb(L(i),477);
     Pnca_477s(i) = wf.Pr_given_betaTb_and_phiMn(L(i),477,phiMn);
     

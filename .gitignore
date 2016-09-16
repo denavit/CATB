@@ -3,3 +3,5 @@ test_*
 *.eps
 *.fig
 *.asv
+*.mat
+*.xls

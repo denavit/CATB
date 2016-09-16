@@ -6,6 +6,8 @@ classdef wf_caftb_base
         A
         d
         tw
+        bf
+        tf
         Ix
         Iy
         J
@@ -38,6 +40,8 @@ classdef wf_caftb_base
             obj.A           = ShapeData_Wide_Flange(i).A;
             obj.d           = ShapeData_Wide_Flange(i).d;
             obj.tw          = ShapeData_Wide_Flange(i).tw;
+            obj.bf          = ShapeData_Wide_Flange(i).bf;
+            obj.tf          = ShapeData_Wide_Flange(i).tf;
             obj.Ix          = ShapeData_Wide_Flange(i).Ix;
             obj.Iy          = ShapeData_Wide_Flange(i).Iy;
             obj.J           = ShapeData_Wide_Flange(i).J;
