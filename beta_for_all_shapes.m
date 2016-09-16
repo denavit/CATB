@@ -2,41 +2,103 @@ clear all; close all; clc;
 
 Fy = 50;
 L_over_d = 10:10:100;
+
+% Case 1 - Steel Deck - Infinite Strength
+cases(1).beta           = 37;
+cases(1).check_strength = false;
+% Case 2 - Steel Deck - Typical Strength
+cases(2).beta           = 37;
+cases(2).check_strength = true;
+cases(2).phiMn_deck     = 1;
+cases(2).phiTn_conn     = 0.2;
+% Case 3 - Composite Deck - Infinite Strength
+cases(3).beta           = 477;
+cases(3).check_strength = false;
+% Case 4 - Composite Deck - Typical Strength
+cases(4).beta           = 477;
+cases(4).check_strength = true;
+cases(4).phiMn_deck     = 10;
+cases(4).phiTn_conn     = 1;
+
 code = 'AISC2016';
 
-%% Run Analysis
+%% Run calculations
 load('ShapeData_Wide_Flange.mat')
+numCases   = length(cases);
+numShapes  = length(ShapeData_Wide_Flange);
+numLengths = length(L_over_d);
 
-% Open file and write header line
-fid = fopen('beta_for_all_shapes_results.csv','w');
-fprintf(fid,'shape,h/t');
-for i = 1:length(L_over_d)
-    fprintf(fid,',L/d = %i',L_over_d(i));
-end
-fprintf(fid,'\n');
-
-% Compute for each shape
-for iShape = 1:length(ShapeData_Wide_Flange)
-    
+tic
+fprintf('Running calculations for all shapes...\n');
+hwait = waitbar(0,'Initilizing');
+for iShape = 1:numShapes
     shapeName = ShapeData_Wide_Flange(iShape).label;
+    hwait = waitbar((iShape-1)/numShapes,hwait,...
+        sprintf('Running shape %i of %i (%s)',iShape,numShapes,shapeName));
+    
+    % Create CAFTB object
     wf = wf_caftb(shapeName,Fy,code);
+    phiMn_web = 0.9*Fy*wf.tw^2/4;
     
-    fprintf(fid,'%s,%g',shapeName,wf.h_over_tw);
-    for iL = 1:length(L_over_d)
-        L       = L_over_d(iL)*wf.d;
-        phiPnx  = wf.phi_c*wf.Pnx(L,1.0);
-        phiPnca = wf.phi_c*wf.Pnca(L,1.0);
-        if phiPnx > phiPnca
-            beta_Tb = wf.beta_Tb(phiPnx,L);
+    % Initilize data
+    ShapeData_Wide_Flange(iShape).L    = L_over_d*ShapeData_Wide_Flange(iShape).d;
+    ShapeData_Wide_Flange(iShape).Pnx  = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).Pny  = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).Pnz  = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).Pnca = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).beta_Tb_Pnx = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).beta_Tb_Pnz = nan(1,numLengths);
+    ShapeData_Wide_Flange(iShape).Pr_beta = nan(numCases,numLengths);
+    
+    % Run for each length
+    for iL = 1:numLengths
+        L = ShapeData_Wide_Flange(iShape).L(iL);
+        
+        % Nominal Strengths
+        ShapeData_Wide_Flange(iShape).Pnx(iL)  = wf.Pnx(L,1.0);
+        ShapeData_Wide_Flange(iShape).Pny(iL)  = wf.Pny(L,1.0);
+        ShapeData_Wide_Flange(iShape).Pnz(iL)  = wf.Pnz(L,1.0);
+        ShapeData_Wide_Flange(iShape).Pnca(iL) = wf.Pnca(L,1.0);
+        
+        % beta for Pnx
+        if ShapeData_Wide_Flange(iShape).Pnx(iL) > ShapeData_Wide_Flange(iShape).Pnca(iL)
+            ShapeData_Wide_Flange(iShape).beta_Tb_Pnx(iL) = ...
+                wf.beta_Tb(wf.phi_c*ShapeData_Wide_Flange(iShape).Pnx(iL),L);
         else
-            beta_Tb = 0;
+            ShapeData_Wide_Flange(iShape).beta_Tb_Pnx(iL) = 0;
         end
-        fprintf(fid,',%g',beta_Tb);
+        
+        % beta for Pnz
+        if ShapeData_Wide_Flange(iShape).Pnz(iL) > ShapeData_Wide_Flange(iShape).Pnca(iL)
+            ShapeData_Wide_Flange(iShape).beta_Tb_Pnz(iL) = ...
+                wf.beta_Tb(wf.phi_c*ShapeData_Wide_Flange(iShape).Pnz(iL),L);
+        else
+            ShapeData_Wide_Flange(iShape).beta_Tb_Pnz(iL) = 0;
+        end
+        
+        % Pr given beta = 0
+        ShapeData_Wide_Flange(iShape).Pr_beta0(iL) = ...
+            wf.Pr_given_betaTb(L,0);
+        
+        % Pr given beta cases
+        for iCase = 1:numCases           
+            beta  = cases(iCase).beta;
+            if cases(iCase).check_strength
+                phiMn_conn = cases(iCase).phiTn_conn*wf.bf/3;
+                phiMn = min([cases(iCase).phiMn_deck phiMn_web phiMn_conn]);
+                ShapeData_Wide_Flange(iShape).Pr_beta(iCase,iL) = ...
+                    wf.Pr_given_betaTb_and_phiMn(L,beta,phiMn);
+            else
+                ShapeData_Wide_Flange(iShape).Pr_beta(iCase,iL) = ...
+                    wf.Pr_given_betaTb(L,beta);
+            end
+        end
     end
-    fprintf(fid,'\n');
-    
 end
+fprintf('  calculations complete\n');
+close(hwait);
 
-% Close file
-fclose(fid);
-
+%% Save data
+save('Computed_Data','ShapeData_Wide_Flange','-v7.3');
+fprintf('  results saved\n');
+toc
