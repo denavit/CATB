@@ -128,7 +128,7 @@ classdef wf_caftb_base
         
         function Pr = Pr_given_betaTb_and_phiMn(obj,L,beta_Tbg,phiMn) 
             if L ~= 0
-                beta_Tbg = min(beta_Tbg,2*phiMn/(L/(1000*obj.ho)+phiMn/beta_Tbg));
+                beta_Tbg = min(beta_Tbg,2*phiMn/(L/(500*obj.ho)+phiMn/beta_Tbg));
             end
             Pr = obj.Pr_given_betaTb(L,beta_Tbg);
         end

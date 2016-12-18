@@ -1,24 +1,24 @@
 clear all; close all; clc;
 
 Fy = 50;
-L_over_d = 10:10:100;
+L_over_d = 5:5:50;
 
 % Case 1 - Steel Deck - Infinite Strength
-cases(1).beta           = 37;
+cases(1).beta           = 30;
 cases(1).check_strength = false;
 % Case 2 - Steel Deck - Typical Strength
-cases(2).beta           = 37;
+cases(2).beta           = 30;
 cases(2).check_strength = true;
 cases(2).phiMn_deck     = 1;
-cases(2).phiTn_conn     = 0.2;
+cases(2).phiTn_conn     = 0.4;
 % Case 3 - Composite Deck - Infinite Strength
-cases(3).beta           = 477;
+cases(3).beta           = 400;
 cases(3).check_strength = false;
 % Case 4 - Composite Deck - Typical Strength
-cases(4).beta           = 477;
+cases(4).beta           = 400;
 cases(4).check_strength = true;
-cases(4).phiMn_deck     = 10;
-cases(4).phiTn_conn     = 1;
+cases(4).phiMn_deck     = 5;
+cases(4).phiTn_conn     = 10;
 
 code = 'AISC2016';
 
@@ -84,7 +84,7 @@ for iShape = 1:numShapes
         for iCase = 1:numCases           
             beta  = cases(iCase).beta;
             if cases(iCase).check_strength
-                phiMn_conn = cases(iCase).phiTn_conn*wf.bf/3;
+                phiMn_conn = cases(iCase).phiTn_conn*wf.bf/3*(1/12);
                 phiMn = min([cases(iCase).phiMn_deck phiMn_web phiMn_conn]);
                 ShapeData_Wide_Flange(iShape).Pr_beta(iCase,iL) = ...
                     wf.Pr_given_betaTb_and_phiMn(L,beta,phiMn);
