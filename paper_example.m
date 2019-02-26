@@ -129,20 +129,20 @@ end
 
 
 % Figure 2
-hf = fs.figure(3.25,2.0);
-ha = fs.axes([0.15 0.18 0.80 0.77]);
+hf = fs.figure(3.25,3.25);
+ha = fs.axes([0.15 0.15 0.80 0.80]);
 plot([0 Li/12 Li/12],[PnxLi PnxLi 0],'k--','LineWidth',1)
-plot([0 Li/12 Li/12],[PnyLi PnyLi 0],'k--','LineWidth',1)
-plot([0 Li/12 Li/12],[PnzLi PnzLi 0],'k--','LineWidth',1)
-plot([0 Li/12 Li/12],[PncaLi PncaLi 0],'k--','LineWidth',1)
-plot(L/12,Pnx,'k-','LineWidth',2)
-plot(L/12,Pny,'k-','LineWidth',2)
-plot(L/12,Pnz,'k-','LineWidth',2)
-plot(L/12,Pnca,'k-','LineWidth',2)
-plot(Li/12,PnxLi,'ok','LineWidth',2,'MarkerFaceColor',[1 1 1],'MarkerSize',6)
-plot(Li/12,PnyLi,'ok','LineWidth',2,'MarkerFaceColor',[1 1 1],'MarkerSize',6)
-plot(Li/12,PnzLi,'ok','LineWidth',2,'MarkerFaceColor',[1 1 1],'MarkerSize',6)
-plot(Li/12,PncaLi,'ok','LineWidth',2,'MarkerFaceColor',[1 1 1],'MarkerSize',6)
+plot([0 Li/12],[PnyLi PnyLi],'k--','LineWidth',1)
+plot([0 Li/12],[PnzLi PnzLi],'k--','LineWidth',1)
+plot([0 Li/12],[PncaLi PncaLi],'k--','LineWidth',1)
+plot(L/12,Pnx,'k-','LineWidth',1)
+plot(L/12,Pny,'k-','LineWidth',1)
+plot(L/12,Pnz,'k-','LineWidth',1)
+plot(L/12,Pnca,'k-','LineWidth',1)
+plot(Li/12,PnxLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
+plot(Li/12,PnyLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
+plot(Li/12,PnzLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
+plot(Li/12,PncaLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
 xlabel('Length (ft)')
 ylabel('Axial Capacity (kips)')
 saveas(hf,'Figure_02');
