@@ -1,11 +1,11 @@
-classdef wf_caftb_AISC2010 < wf_caftb_base
+classdef wf_catb_AISC2010 < wf_catb_base
     
     properties
 
     end
     
     methods
-        function obj = wf_caftb_AISC2010(shape_name,Fy)
+        function obj = wf_catb_AISC2010(shape_name,Fy)
             obj = obj.set_shape_properties(shape_name);
             obj.Fy = Fy;
         end

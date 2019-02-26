@@ -3,7 +3,7 @@ clear all; close all; clc
 shape_name = 'W18x35';
 Fy = 50;
 K  = 1;
-wf = wf_caftb(shape_name,Fy,'AISC2016');
+wf = wf_catb(shape_name,Fy,'AISC2016');
 Py = wf.Py;
 bf = wf.bf;
 

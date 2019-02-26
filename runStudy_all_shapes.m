@@ -36,8 +36,8 @@ for iShape = 1:numShapes
     hwait = waitbar((iShape-1)/numShapes,hwait,...
         sprintf('Running shape %i of %i (%s)',iShape,numShapes,shapeName));
     
-    % Create CAFTB object
-    wf = wf_caftb(shapeName,Fy,code);
+    % Create CATB object
+    wf = wf_catb(shapeName,Fy,code);
     phiMn_web = 0.9*Fy*wf.tw^2/4;
     
     % Initilize data

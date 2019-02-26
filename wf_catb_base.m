@@ -1,4 +1,4 @@
-classdef wf_caftb_base
+classdef wf_catb_base
     
     properties
         % Section Properties
