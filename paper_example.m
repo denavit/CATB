@@ -57,7 +57,7 @@ hf = fs.figure(3.25,2.0);
 ha = fs.axes();
 plot([0 Py],[0 Py],'k--','LineWidth',1)
 plot(P,Pnys,'k-','LineWidth',2)
-xlabel('Applied Axial Load, P (kips)')
+xlabel('Required Axial Strength, P_u (kips)')
 ylabel('P_{ny}* (kips)')
 %axis equal
 xlim([0 Py])
@@ -75,7 +75,7 @@ plot(PnzLi*[1 1],[0 max(beta_Tb)],'k--','LineWidth',2)
 plot(PncaLi*[1 1],[0 max(beta_Tb)],'k--','LineWidth',2)
 plot(P,beta_T,'k--','LineWidth',2)
 plot(P,beta_Tb,'k-','LineWidth',2)
-xlabel('Axial Load (kips)')
+xlabel('Required Axial Strength, P_u (kips)')
 ylabel('Required Stiffness (kip-in./rad/in.)')
 xlim([0 450])
 ylim([0 70])
@@ -144,12 +144,12 @@ plot(Li/12,PnyLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
 plot(Li/12,PnzLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
 plot(Li/12,PncaLi,'ok','LineWidth',1,'MarkerFaceColor',[1 1 1],'MarkerSize',4)
 xlabel('Length (ft)')
-ylabel('Axial Capacity (kips)')
+ylabel('Nominal Axial Compressive Strength (kips)')
 saveas(hf,'Figure_02');
 print(hf,'-dsvg','Figure_02');
 
 
-% Figure 7
+% Figure 8
 hf = fs.figure(3.25,2.0);
 ha = fs.axes([0.15 0.18 0.80 0.77]);
 plot(L/12,0.9*Pnca,'k--','LineWidth',2)
@@ -157,17 +157,15 @@ plot(L/12,Pnca_0,'k-','LineWidth',2)
 plot(L/12,Pnca_A,'k-','LineWidth',2)
 plot(L/12,Pnca_B,'k-','LineWidth',2)
 xlabel('Length (ft)')
-ylabel('Axial Capacity (kips)')
-saveas(hf,'Figure_07');
-print(hf,'-dsvg','Figure_07');
+ylabel('Axial Strength (kips)')
+saveas(hf,'Figure_08');
+print(hf,'-dsvg','Figure_08');
 
 
-% Figure 8
+% Required Stiffness vs. Length
 hf = fs.figure(3.25,2.0);
 ha = fs.axes([0.15 0.18 0.80 0.77]);
 plot(L/12,beta_Tb_Pnx,'k-','LineWidth',2)
 plot(L/12,beta_Tb_Pnz,'k-','LineWidth',2)
 xlabel('Length (ft)')
 ylabel('Required Stiffness (kip-in./rad/in.)    .')
-saveas(hf,'Figure_08');
-print(hf,'-dsvg','Figure_08');
